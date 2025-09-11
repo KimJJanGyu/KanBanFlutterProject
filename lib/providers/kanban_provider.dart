@@ -1,16 +1,15 @@
 import 'package:flutter/widgets.dart';
+import 'package:kanban/enums/kanban_status.dart';
 
 class KanbanProvider with ChangeNotifier {
-  int value = 0;
+  KanbanStatus kanbanStatus = .todo;
 
-  void setValue(int value) {
-    this.value = value;
-    debugPrint('변수변경: $value');
-  }
+  //kotlin : private fun refreshUI 와 동일
+  void _refreshUI() => notifyListeners();
 
-  void addValue() {
-    value++;
-    notifyListeners();
-    debugPrint('변수 변경 : $value');
+  void setKanbanStatus(KanbanStatus status){
+    if (kanbanStatus == status) return;
+    kanbanStatus = status;
+    _refreshUI();
   }
 }
