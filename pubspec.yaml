@@ -14,6 +14,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+#id 생성 위함
+  uuid: ^4.5.1
+
 #아이콘
   lucide_icons_flutter: ^3.1.0
 

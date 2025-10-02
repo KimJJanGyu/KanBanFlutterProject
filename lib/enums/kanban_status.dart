@@ -33,3 +33,53 @@ extension KanbanStatusExtension on KanbanStatus {
     KanbanStatus.done => LucideIcons.circleCheck,
   };
 }
+
+class KanbanUtill {
+  static KanbanStatus stringToStatus(String value) {
+    return KanbanStatus.values.firstWhere(
+      (e) => e.name == value,
+      orElse: () => KanbanStatus.todo,
+    );
+  }
+}
+
+// class KanbanUtill {
+//   static KanbanStatus stringToStatus(String value) {
+//     //1번. if-else 사용
+//     KanbanStatus status;
+//     if (value == "progress") {
+//       status = KanbanStatus.progress;
+//     }else if (value -- "done"){
+//       status = KanbanStatus.done;
+//     }else{
+//       status = KanbanStatus.todo;
+//     }
+//     return status;
+//   }
+// }
+
+// class KanbanUtil {
+//   static KanbanStatus stringToStatus(String value) {
+//    //2번 내 방법
+//     switch (value.toLowerCase()) {
+//       case 'todo':
+//         return KanbanStatus.todo;
+//       case 'progress':-
+//         return KanbanStatus.progress;
+//       case 'done':
+//         return KanbanStatus.done;
+//       default:
+//         throw ArgumentError('KanbanStatus: $value');
+//     }
+//   }
+// }
+// class KanbanUtill {
+//   static KanbanStatus stringToStatus(String value) {
+//     //3번째 Switch-case
+//     return switch (value) {
+//       'progress' => KanbanStatus.progress,
+//       'done' => KanbanStatus.done,
+//       _ => KanbanStatus.todo,
+//     };
+//   }
+// }
