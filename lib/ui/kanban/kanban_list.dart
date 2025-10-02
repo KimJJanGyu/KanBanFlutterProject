@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kanban/enums/kanban_status.dart';
+import 'package:kanban/providers/kanban_provider.dart';
+import 'package:kanban/ui/common/status_island.dart';
+import 'package:kanban/ui/kanban/widgets/kanban_item.dart';
+import 'package:provider/provider.dart';
 
 class KanbanList extends StatelessWidget {
   final KanbanStatus status;
@@ -7,6 +11,50 @@ class KanbanList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(status.label, style: TextStyle(fontSize: 40)));
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: status.backgroundColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        spacing: 10,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          StatusIsland(status: status),
+          Expanded(
+            child: Consumer<KanbanProvider>(
+              builder: (context, provider, _) {
+                final items = provider.items;
+                final searchedItems = items
+                    .where((e) => e.$1 == status)
+                    .toList();
+
+                return ListView.separated(
+                  itemCount: searchedItems.length,
+                  shrinkWrap: true,
+                  cacheExtent: 1,
+                  separatorBuilder: (context, index) => SizedBox(height: 20),
+                  itemBuilder: (context, index) {
+                    return KanbanItem(
+                      status: status,
+                      title: 'New Task ${index + 1}',
+                      onCheckbox: () {
+                        debugPrint('$status -> 체크박스');
+                      },
+                      onDelete: () {
+                        debugPrint('$status -> 삭제');
+                        context.read<KanbanProvider>().deleteItem(index);
+                      },
+                      onStatus: () {},
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
